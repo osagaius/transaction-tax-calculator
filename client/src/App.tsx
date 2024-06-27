@@ -1,20 +1,13 @@
-// App.tsx
 import React from 'react';
 import TotalPricePerCityChart from './TotalPricePerCityChart';
 import TransactionDetails from './TransactionDetails';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <h1>Total Tax Liability Per Region</h1>
-      <br></br>
-
+    <div className="container mx-auto p-4">
+      <h1 className="text-4xl font-bold text-center my-4">Total Tax Liability Per Region</h1>
       <TotalPricePerCityChart />
-      <br></br>
-      <br></br>
-      <h1>Transaction Tax Details</h1>
-      <br></br>
-
+      <h1 className="text-4xl font-bold text-center my-4">Transaction Tax Details</h1>
       <TransactionDetails />
     </div>
   );

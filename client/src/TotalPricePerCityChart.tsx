@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface LineItem {
     name: string;
@@ -65,7 +66,7 @@ const calculateTaxLiability = (
     return taxLiabilities;
 };
 
-const TotalTaxLiability: React.FC = () => {
+const TotalPricePerCityChart: React.FC = () => {
     const [taxLiabilities, setTaxLiabilities] = useState<Record<string, number>>({});
 
     useEffect(() => {
@@ -75,7 +76,7 @@ const TotalTaxLiability: React.FC = () => {
                 const { transactions, tax_authority } = response.data;
 
                 const calculatedTaxLiabilities = calculateTaxLiability(transactions, tax_authority);
-
+                console.log(calculatedTaxLiabilities);
                 setTaxLiabilities(calculatedTaxLiabilities);
             } catch (error) {
                 console.error("Error fetching data", error);
@@ -85,15 +86,28 @@ const TotalTaxLiability: React.FC = () => {
         fetchData();
     }, []);
 
+    const data = Object.entries(taxLiabilities).map(([state, liability]) => ({
+        state,
+        liability: parseFloat(liability.toFixed(2))
+    }));
+
     return (
-        <div>
-            {Object.entries(taxLiabilities).map(([state, liability]) => (
-                <div key={state}>
-                    {state}: {liability.toFixed(2)}
-                </div>
-            ))}
-        </div>
+        <ResponsiveContainer width="100%" height={400}>
+            <BarChart
+                data={data}
+                margin={{
+                    top: 5, right: 30, left: 20, bottom: 5,
+                }}
+            >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="state" />
+                <YAxis tickFormatter={(value: number) => `$${value}`} />
+                <Tooltip formatter={(value: number) => `$${value}`} />
+                <Legend />
+                <Bar dataKey="liability" fill="#8884d8" />
+            </BarChart>
+        </ResponsiveContainer>
     );
 };
 
-export default TotalTaxLiability;
+export default TotalPricePerCityChart;
