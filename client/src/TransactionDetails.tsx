@@ -81,6 +81,8 @@ const TransactionDetails: React.FC = () => {
         fetchData();
     }, []);
 
+    const formatAsDollars = (amount: number) => `$${amount.toFixed(2)}`;
+
     return (
         <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -97,8 +99,8 @@ const TransactionDetails: React.FC = () => {
                         <tr key={index}>
                             <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>Transaction {index + 1}</td>
                             <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{detail.state}</td>
-                            <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{detail.taxableAmount.toFixed(2)}</td>
-                            <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{detail.tax.toFixed(2)}</td>
+                            <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{formatAsDollars(detail.taxableAmount)}</td>
+                            <td style={{ border: '1px solid #ddd', padding: '8px', textAlign: 'center' }}>{formatAsDollars(detail.tax)}</td>
                         </tr>
                     ))}
                 </tbody>
